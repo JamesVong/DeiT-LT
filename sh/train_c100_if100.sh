@@ -3,7 +3,7 @@ CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 -
     --batch-size 128 \
     --epochs 1200 \
     --gpu 0 \
-    --teacher-path "Enter teacher path" \
+    --teacher-path "cifar100_paco_sam_if100.pth.tar" \
     --distillation-type hard \
     --data-path cifar100 \
     --data-set CIFAR100LT \

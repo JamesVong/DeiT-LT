@@ -25,6 +25,45 @@ rank of features for DIST token, where we demonstrate that students trained with
 
 
 
+## Extensions: Loss Technique Comparison (this fork)
+
+This repository extends the original DeiT-LT with four additional long-tail loss techniques and a unified training pipeline for comparison against the CE baseline.
+
+### Added techniques
+
+| # | Technique | Key idea | CLI flag |
+|---|-----------|----------|----------|
+| 1 | **Logit Adjustment** | Shift logits by `τ · log(prior)` to correct for class-frequency bias | `--loss logit_adj --tau 1.0` |
+| 2 | **Balanced Softmax** | Additive log-frequency offset; mathematically equivalent to LogitAdj at τ=1 | `--loss balanced_softmax` |
+| 3 | **Class-Aware Label Smoothing** | Per-class ε inversely proportional to class count (tail → more smoothing) | `--loss class_smooth --eps-max 0.2` |
+| 4 | **Decoupled Classifier Fine-tuning** | Freeze backbone after stage-1 CE training; re-train head with balanced sampler | `scripts/finetune_classifier_*.py` |
+
+### Running the full comparison
+
+```bash
+# CIFAR-10 LT, IF=100, full schedule (1200 epochs, DRW at 1100)
+# Runs CE baseline + Techniques 1–3 sequentially; Technique 4 fine-tunes from CE checkpoint.
+# Safe to Ctrl+C and re-run — resumes automatically from the latest checkpoint.
+bash run.sh
+```
+
+Results are printed as a comparison table at the end. Individual training logs are written to `logs/`.
+
+### New files
+
+```
+losses/
+  logit_adjustment_20260315_120000.py    # Technique 1
+  balanced_softmax_20260315_120000.py    # Technique 2
+  class_aware_smoothing_20260315_120000.py  # Technique 3
+scripts/
+  train_lt_20260315_120000.py            # Unified train wrapper (all loss types)
+  finetune_classifier_20260315_120000.py # Technique 4 stage-2 fine-tuning
+run.sh                                   # Orchestrates all 5 runs with auto-resume
+```
+
+---
+
 ## Usage
 
 1. Clone the respository.

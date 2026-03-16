@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Large checkpoint / teacher model files
+*.pth
+*.pth.tar
+*.tar
+
+# Training output directories (contain multi-GB checkpoints)
+deit_out_*/
+checkpoints/
+
+# Datasets (downloaded automatically by code)
+cifar10/
+cifar100/
+imagenet*/
+inat*/
+data/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Private notes
+improved_prompt.txt
