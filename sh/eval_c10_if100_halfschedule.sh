@@ -1,0 +1,11 @@
+CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0} torchrun --nproc_per_node=${NPROC_PER_NODE:-1} --master_port=${MASTER_PORT:-47773} main.py \
+    --model deit_base_distilled_patch16_224 \
+    --batch-size 256 \
+    --gpu 0 \
+    --data-path cifar10 \
+    --data-set CIFAR10LT \
+    --student-transform 0 \
+    --teacher-transform 0 \
+    --custom_model \
+    --resume "deit_out_c10lt_halfschedule/deit_base_distilled_patch16_224_resnet32_600_CIFAR10LT_imb100_128_[deitlt_paco_sam_cifar10_if100_halfschedule]/deit_base_distilled_patch16_224_resnet32_600_CIFAR10LT_imb100_128_[deitlt_paco_sam_cifar10_if100_halfschedule]_best_checkpoint.pth" \
+    --eval \

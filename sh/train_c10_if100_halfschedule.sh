@@ -1,20 +1,20 @@
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 --use_env --master_port=47773 main.py \
+CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0} torchrun --nproc_per_node=${NPROC_PER_NODE:-1} --master_port=${MASTER_PORT:-47773} main.py \
     --model deit_base_distilled_patch16_224 \
     --batch-size 128 \
-    --epochs 1200 \
+    --epochs 600 \
     --gpu 0 \
-    --teacher-path "cifar100_paco_sam_if50.pth.tar" \
+    --teacher-path "paco_sam_ckpt_cf10_if100.pth.tar" \
     --distillation-type hard \
-    --data-path cifar100 \
-    --data-set CIFAR100LT \
-    --imb_factor 0.02 \
-    --output_dir deit_out_c100lt \
+    --data-path cifar10 \
+    --data-set CIFAR10LT \
+    --imb_factor 0.01 \
+    --output_dir deit_out_c10lt_halfschedule \
     --student-transform 0 \
     --teacher-transform 0 \
     --teacher-model resnet32 \
     --teacher-size 32 \
-    --experiment [deitlt_paco_sam_cifar10_if100] \
-    --drw 1100 \
+    --experiment [deitlt_paco_sam_cifar10_if100_halfschedule] \
+    --drw 550 \
     --no-mixup-drw \
     --custom_model \
     --accum-iter 4 \

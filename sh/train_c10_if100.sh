@@ -1,9 +1,9 @@
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 --use_env --master_port=47773 main.py \
+CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0} torchrun --nproc_per_node=${NPROC_PER_NODE:-1} --master_port=${MASTER_PORT:-47773} main.py \
     --model deit_base_distilled_patch16_224 \
     --batch-size 128 \
     --epochs 1200 \
     --gpu 0 \
-    --teacher-path "Enter teacher path" \
+    --teacher-path "paco_sam_ckpt_cf10_if100.pth.tar" \
     --distillation-type hard \
     --data-path cifar10 \
     --data-set CIFAR10LT \

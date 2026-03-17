@@ -1,0 +1,1 @@
+2026-03-15 20:51:46,274 INFO scripts.finetune_classifier_20260315_120000: [FINETUNE] Froze 85646592 params (backbone). Trainable: 168980 params (heads).

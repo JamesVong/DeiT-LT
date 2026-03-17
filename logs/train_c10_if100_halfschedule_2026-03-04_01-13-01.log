@@ -1,0 +1,391 @@
+[2026-03-04 01:13:15] Wed Mar  4 01:13:01 AM PST 2026
+[2026-03-04 01:13:15] | distributed init (rank 0): env://
+[2026-03-04 01:13:15] Files already downloaded and verified
+[2026-03-04 01:13:15] Deit val
+[2026-03-04 01:13:15] Deit val
+[2026-03-04 01:13:15] Files already downloaded and verified
+[2026-03-04 01:13:15] Repeated Aug ****************
+[2026-03-04 01:13:15] The len of the dataset is  12406
+[2026-03-04 01:13:15] [INFORMATION] THe model being used is  deit_base_distilled_patch16_224
+[2026-03-04 01:13:15] [INFORMATION] Model loaded from custom file
+[2026-03-04 01:13:15] Model DistilledVisionTransformer(
+[2026-03-04 01:13:15]   (patch_embed): PatchEmbedCustom(
+[2026-03-04 01:13:15]     (proj): Conv2d(3, 768, kernel_size=(16, 16), stride=(16, 16))
+[2026-03-04 01:13:15]   )
+[2026-03-04 01:13:15]   (pos_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]   (norm_pre): Identity()
+[2026-03-04 01:13:15]   (blocks): Sequential(
+[2026-03-04 01:13:15]     (0): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): Identity()
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): Identity()
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (1): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.009)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.009)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (2): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.018)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.018)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (3): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.027)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.027)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (4): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.036)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.036)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (5): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.045)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.045)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (6): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.055)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.055)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (7): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.064)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.064)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (8): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.073)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.073)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (9): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.082)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.082)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (10): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.091)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.091)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]     (11): Block(
+[2026-03-04 01:13:15]       (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (attn): MemEffAttention(
+[2026-03-04 01:13:15]         (qkv): Linear(in_features=768, out_features=2304, bias=True)
+[2026-03-04 01:13:15]         (attn_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (proj): Linear(in_features=768, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (proj_drop): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls1): Identity()
+[2026-03-04 01:13:15]       (drop_path1): DropPath(drop_prob=0.100)
+[2026-03-04 01:13:15]       (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]       (mlp): Mlp(
+[2026-03-04 01:13:15]         (fc1): Linear(in_features=768, out_features=3072, bias=True)
+[2026-03-04 01:13:15]         (act): GELU(approximate='none')
+[2026-03-04 01:13:15]         (drop1): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]         (fc2): Linear(in_features=3072, out_features=768, bias=True)
+[2026-03-04 01:13:15]         (drop2): Dropout(p=0.0, inplace=False)
+[2026-03-04 01:13:15]       )
+[2026-03-04 01:13:15]       (ls2): Identity()
+[2026-03-04 01:13:15]       (drop_path2): DropPath(drop_prob=0.100)
+[2026-03-04 01:13:15]     )
+[2026-03-04 01:13:15]   )
+[2026-03-04 01:13:15]   (norm): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+[2026-03-04 01:13:15]   (fc_norm): Identity()
+[2026-03-04 01:13:15]   (head): Linear(in_features=768, out_features=10, bias=True)
+[2026-03-04 01:13:15]   (head_dist): Linear(in_features=768, out_features=10, bias=True)
+[2026-03-04 01:13:15] )
+[2026-03-04 01:13:15] Number of parameters: 85815572
+[2026-03-04 01:13:15] WARMUP EPOCHS =  5
+[2026-03-04 01:13:15] Critera: SoftTargetCrossEntropy
+[2026-03-04 01:13:15] [INFORMATION] The distillation token im Deit is being used
+[2026-03-04 01:13:15] Creating teacher model: resnet32
+[2026-03-04 01:13:15] [INFORMATION] Loading teacher model from path  paco_sam_ckpt_cf10_if100.pth.tar
+[2026-03-04 01:13:15] Criteria: Distillation Loss
+[2026-03-04 01:13:15] Normal Distillation
+[2026-03-04 01:13:15] Start training for 600 epochs
+[2026-03-04 01:13:15] The distillation type is  hard
+[2026-03-04 01:13:15] [W reducer.cpp:1300] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[2026-03-04 01:13:15] Epoch: [0]  [ 0/96]  eta: 0:04:35  lr: 0.000001  loss: 2.5916 (2.5916)  sim_12: 0.8945 (0.8945)  cls_loss: 1.3425 (1.3425)  dst_loss: 1.2491 (1.2491)  time: 2.8722  data: 1.5462  max mem: 9688
+[2026-03-04 01:13:15] ^CWARNING:torch.distributed.elastic.agent.server.api:Received 2 death signal, shutting down workers
+[2026-03-04 01:13:15] WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 1958500 closing signal SIGINT
+[2026-03-04 01:13:15] Exception in thread Thread-1:
+[2026-03-04 01:13:15] Traceback (most recent call last):
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/threading.py", line 973, in _bootstrap_inner
+[2026-03-04 01:13:15]     self.run()
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/threading.py", line 910, in run
+[2026-03-04 01:13:15]     self._target(*self._args, **self._kwargs)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/utils/data/_utils/pin_memory.py", line 51, in _pin_memory_loop
+[2026-03-04 01:13:15]     do_one_step()
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/utils/data/_utils/pin_memory.py", line 28, in do_one_step
+[2026-03-04 01:13:15]     r = in_queue.get(timeout=MP_STATUS_CHECK_INTERVAL)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/multiprocessing/queues.py", line 122, in get
+[2026-03-04 01:13:15]     return _ForkingPickler.loads(res)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/multiprocessing/reductions.py", line 307, in rebuild_storage_fd
+[2026-03-04 01:13:15]     fd = df.detach()
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/multiprocessing/resource_sharer.py", line 57, in detach
+[2026-03-04 01:13:15]     with _resource_sharer.get_connection(self._id) as conn:
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/multiprocessing/resource_sharer.py", line 86, in get_connection
+[2026-03-04 01:13:15]     c = Client(address, authkey=process.current_process().authkey)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/multiprocessing/connection.py", line 513, in Client
+[2026-03-04 01:13:15]     answer_challenge(c, authkey)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/multiprocessing/connection.py", line 757, in answer_challenge
+[2026-03-04 01:13:15]     message = connection.recv_bytes(256)         # reject large message
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/multiprocessing/connection.py", line 221, in recv_bytes
+[2026-03-04 01:13:15]     buf = self._recv_bytes(maxlength)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/multiprocessing/connection.py", line 419, in _recv_bytes
+[2026-03-04 01:13:15]     buf = self._recv(4)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/multiprocessing/connection.py", line 384, in _recv
+[2026-03-04 01:13:15]     chunk = read(handle, remaining)
+[2026-03-04 01:13:15] ConnectionResetError: [Errno 104] Connection reset by peer
+[2026-03-04 01:13:15] Traceback (most recent call last):
+[2026-03-04 01:13:15]   File "/home/amicus/Desktop/DeiT-LT/main.py", line 711, in <module>
+[2026-03-04 01:13:15]     main(args)
+[2026-03-04 01:13:15]   File "/home/amicus/Desktop/DeiT-LT/main.py", line 481, in main
+[2026-03-04 01:13:15]     train_stats = train_one_epoch(
+[2026-03-04 01:13:15]   File "/home/amicus/Desktop/DeiT-LT/engine.py", line 252, in train_one_epoch
+[2026-03-04 01:13:15]     torch.cuda.synchronize()
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/cuda/__init__.py", line 688, in synchronize
+[2026-03-04 01:13:15]     return torch._C._cuda_synchronize()
+[2026-03-04 01:13:15] KeyboardInterrupt
+[2026-03-04 01:13:15] ^CWARNING:torch.distributed.elastic.multiprocessing.api:Sending process 1958500 closing signal SIGTERM
+[2026-03-04 01:13:15] ^CTraceback (most recent call last):
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/api.py", line 723, in run
+[2026-03-04 01:13:15]     result = self._invoke_run(role)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/api.py", line 864, in _invoke_run
+[2026-03-04 01:13:15]     time.sleep(monitor_interval)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 62, in _terminate_process_handler
+[2026-03-04 01:13:15]     raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+[2026-03-04 01:13:15] torch.distributed.elastic.multiprocessing.api.SignalException: Process 1958467 got signal: 2
+[2026-03-04 01:13:15] 
+[2026-03-04 01:13:15] During handling of the above exception, another exception occurred:
+[2026-03-04 01:13:15] 
+[2026-03-04 01:13:15] Traceback (most recent call last):
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/api.py", line 730, in run
+[2026-03-04 01:13:15]     self._shutdown(e.sigval)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/local_elastic_agent.py", line 289, in _shutdown
+[2026-03-04 01:13:15]     self._pcontext.close(death_sig)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 331, in close
+[2026-03-04 01:13:15]     self._close(death_sig=death_sig, timeout=timeout)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 708, in _close
+[2026-03-04 01:13:15]     handler.proc.wait(time_to_wait)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/subprocess.py", line 1189, in wait
+[2026-03-04 01:13:15]     return self._wait(timeout=timeout)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/subprocess.py", line 1911, in _wait
+[2026-03-04 01:13:15]     time.sleep(delay)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 62, in _terminate_process_handler
+[2026-03-04 01:13:15]     raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+[2026-03-04 01:13:15] torch.distributed.elastic.multiprocessing.api.SignalException: Process 1958467 got signal: 2
+[2026-03-04 01:13:15] 
+[2026-03-04 01:13:15] During handling of the above exception, another exception occurred:
+[2026-03-04 01:13:15] 
+[2026-03-04 01:13:15] Traceback (most recent call last):
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/bin/torchrun", line 8, in <module>
+[2026-03-04 01:13:15]     sys.exit(main())
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 346, in wrapper
+[2026-03-04 01:13:15]     return f(*args, **kwargs)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/run.py", line 794, in main
+[2026-03-04 01:13:15]     run(args)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/run.py", line 785, in run
+[2026-03-04 01:13:15]     elastic_launch(
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 134, in __call__
+[2026-03-04 01:13:15]     return launch_agent(self._config, self._entrypoint, list(args))
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 241, in launch_agent
+[2026-03-04 01:13:15]     result = agent.run()
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/metrics/api.py", line 129, in wrapper
+[2026-03-04 01:13:15]     result = f(*args, **kwargs)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/api.py", line 735, in run
+[2026-03-04 01:13:15]     self._shutdown()
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/local_elastic_agent.py", line 289, in _shutdown
+[2026-03-04 01:13:15]     self._pcontext.close(death_sig)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 331, in close
+[2026-03-04 01:13:15]     self._close(death_sig=death_sig, timeout=timeout)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 708, in _close
+[2026-03-04 01:13:15]     handler.proc.wait(time_to_wait)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/subprocess.py", line 1189, in wait
+[2026-03-04 01:13:15]     return self._wait(timeout=timeout)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/subprocess.py", line 1911, in _wait
+[2026-03-04 01:13:15]     time.sleep(delay)
+[2026-03-04 01:13:15]   File "/home/amicus/miniconda3/envs/deitlt/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 62, in _terminate_process_handler
+[2026-03-04 01:13:15]     raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+[2026-03-04 01:13:15] torch.distributed.elastic.multiprocessing.api.SignalException: Process 1958467 got signal: 2
+[2026-03-04 01:13:15] EXIT_CODE=1
+[2026-03-04 01:13:15] Wed Mar  4 01:13:15 AM PST 2026
