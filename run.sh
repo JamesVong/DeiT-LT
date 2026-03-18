@@ -7,20 +7,20 @@
 # Full schedule (1200 epochs) is required to compare against paper baselines.
 #
 # Timing analysis (measured on this machine, 1×GPU, 37 s/epoch):
-#   CIFAR-10 LT 1200 epochs ≈ 12.4 h/run
+#   CIFAR-100 LT 1200 epochs ≈ 12.4 h/run
 #
 #   Full matrix  C10+C100, IF=50+IF=100, 4 techniques + CE × 4  ≈ 6.6 days  ✗
-#   C10 only,    IF=50+IF=100,           4 techniques + CE × 2  ≈ 4.1 days  ✗
-#   C10 only,    IF=100 only,            4 techniques + CE × 1  ≈ 2.1 days  ✓
+#   C100 only,   IF=50+IF=100,           4 techniques + CE × 2  ≈ 4.1 days  ✗
+#   C100 only,   IF=100 only,            4 techniques + CE × 1  ≈ 2.1 days  ✓
 #
-# Chosen: CIFAR-10 LT, IF=100, full schedule (1200 epochs / DRW at 1100).
+# Chosen: CIFAR-100 LT, IF=100, full schedule (1200 epochs / DRW at 1100).
 # IF=100 is the primary benchmark used in the DeiT-LT paper and the most
 # challenging setting.
 #
-# Breakdown: 4 trains (CE baseline + Techniques 1–3) × 12.4 h
-#          + 1 fine-tune (Technique 4, 10 epochs on CE checkpoint) ≈ 10 min
-#          = ~2.1 days total.
-# Adding IF=50 would double the training runs to ~4.1 days, just over budget.
+# Breakdown: 3 trains (Techniques 1–3) × 12.4 h
+#          + 1 fine-tune (Technique 4, 10 epochs on downloaded CE checkpoint) ≈ 10 min
+#          = ~1.5 days total.
+# CE baseline is skipped — a pre-trained checkpoint is downloaded instead.
 #
 # Resume behaviour
 # ----------------
@@ -37,6 +37,31 @@ set -euo pipefail
 
 # ── 0. Setup ──────────────────────────────────────────────────────────────────
 mkdir -p logs checkpoints
+
+# ── Download teacher model (CIFAR-100 LT IF=100, PaCo+SAM) ───────────────────
+TEACHER_CKPT="cifar100_paco_sam_if100.pth.tar"
+if [ ! -f "$TEACHER_CKPT" ]; then
+    echo "Downloading teacher model → ${TEACHER_CKPT} ..."
+    wget -q --show-progress -O "$TEACHER_CKPT" \
+        "https://api.wandb.ai/artifactsV2/default/pradipto611/QXJ0aWZhY3Q6Nzk3NzA4NTEx/fc4a80f43013c11729e28426b64ef70b/cifar100_paco_sam_if100.pth.tar"
+    echo "  Teacher model downloaded."
+else
+    echo "  Teacher model already present: ${TEACHER_CKPT}"
+fi
+
+# ── Download pre-trained student CE checkpoint (skips CE training run) ────────
+# Matches name_exp produced by: model_teacher_epochs_CIFAR100LT_imb100_bs_[exp]
+_STUDENT_SUBDIR="deit_out_ce_if100/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_[paco_sam_teacher]"
+_STUDENT_CKPT="${_STUDENT_SUBDIR}/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_[paco_sam_teacher]_best_checkpoint.pth"
+if [ ! -f "$_STUDENT_CKPT" ]; then
+    echo "Downloading student CE checkpoint → ${_STUDENT_CKPT} ..."
+    mkdir -p "$_STUDENT_SUBDIR"
+    wget -q --show-progress -O "$_STUDENT_CKPT" \
+        "https://api.wandb.ai/artifactsV2/default/pradipto611/QXJ0aWZhY3Q6Nzk3NzA4NTEx/cf0bdaca962d76f5d79be436478cfd5d/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_%5Bpaco_sam_teacher%5D_best_checkpoint.pth"
+    echo "  Student CE checkpoint downloaded."
+else
+    echo "  Student CE checkpoint already present."
+fi
 
 SCRIPT="scripts/train_lt_20260315_120000.py"
 FINETUNE="scripts/finetune_classifier_20260315_120000.py"
@@ -109,19 +134,18 @@ run_technique() {
         "${extra_flags[@]}"
 }
 
-# ── 1. Common flags — CIFAR-10 LT IF=100, full schedule ──────────────────────
-#       Mirrors sh/train_c10_if100.sh (full schedule) exactly.
+# ── 1. Common flags — CIFAR-100 LT IF=100, full schedule ─────────────────────
 COMMON="--model deit_base_distilled_patch16_224 \
     --batch-size 128 \
     --epochs ${TOTAL_EPOCHS} \
     --drw 1100 \
     --gpu 0 \
-    --teacher-path paco_sam_ckpt_cf10_if100.pth.tar \
+    --teacher-path ${TEACHER_CKPT} \
     --teacher-model resnet32 \
     --teacher-size 32 \
     --distillation-type hard \
-    --data-path cifar10 \
-    --data-set CIFAR10LT \
+    --data-path cifar100 \
+    --data-set CIFAR100LT \
     --imb_factor 0.01 \
     --student-transform 0 \
     --teacher-transform 0 \
@@ -132,12 +156,10 @@ COMMON="--model deit_base_distilled_patch16_224 \
     --weighted-distillation \
     --moco-t 0.05 --moco-k 1024 --moco-dim 32 --feat_dim 64 --paco"
 
-# ── 2. CE baseline ────────────────────────────────────────────────────────────
-run_technique "[1/5] CE baseline (reproduces original DeiT-LT)" \
-    deit_out_ce_if100 \
-    --loss ce \
-    --experiment "[lt_ce_if100]" \
-    --output_dir deit_out_ce_if100
+# ── 2. CE baseline — SKIPPED (pre-trained checkpoint downloaded above) ────────
+echo ""
+echo "=== [1/5] CE baseline — SKIPPED (using downloaded checkpoint) ==="
+echo "  Checkpoint: ${_STUDENT_CKPT}"
 
 # ── 3. Technique 1: Logit Adjustment ─────────────────────────────────────────
 run_technique "[2/5] Technique 1: Logit Adjustment (tau=1.0)" \
@@ -164,7 +186,7 @@ run_technique "[4/5] Technique 3: Class-Aware Label Smoothing (eps-max=0.2)" \
 # Fine-tune is ~10 min — always re-run rather than resume.
 echo ""
 echo "=== [5/5] Technique 4: Decoupled fine-tuning (stage-2 on CE checkpoint) ==="
-STAGE1_CKPT=$(ls deit_out_ce_if100/*/*_best_checkpoint.pth 2>/dev/null | tail -1 || true)
+STAGE1_CKPT=$(find deit_out_ce_if100 -maxdepth 2 -name "*_best_checkpoint.pth" 2>/dev/null | sort | tail -1 || true)
 if [ -z "$STAGE1_CKPT" ]; then
     echo "  WARNING: No best_checkpoint.pth under deit_out_ce_if100/. Skipping stage-2."
 else
@@ -176,14 +198,14 @@ fi
 # ── 7. Results comparison table ───────────────────────────────────────────────
 echo ""
 echo "############################################################"
-echo "#  RESULTS  —  CIFAR-10 LT  IF=100  (1200 epochs)"
+echo "#  RESULTS  —  CIFAR-100 LT  IF=100  (1200 epochs)"
 echo "############################################################"
 python - <<'PYEOF'
 import glob, json, os
 import torch
 
 PAPER_BASELINE = {
-    "DeiT-LT (paper, CE, IF=100)": {"head": 96.7, "mid": 80.7, "tail": 52.7, "overall": 79.0},
+    "DeiT-LT (paper, CE, CIFAR-100 IF=100)": {"head": 74.0, "mid": 43.5, "tail": 25.2, "overall": 53.8},
 }
 
 rows = []
@@ -206,22 +228,6 @@ for d in sorted(glob.glob("deit_out_*_if100")):
     except Exception as e:
         print(f"  [WARN] {ckpts[-1]}: {e}")
 
-# Include the already-completed CE half-schedule run as a reference
-baseline_ckpts = sorted(glob.glob(
-    "deit_out_c10lt_halfschedule/**/*_best_checkpoint.pth", recursive=True
-))
-if baseline_ckpts:
-    try:
-        c = torch.load(baseline_ckpts[-1], map_location="cpu")
-        rows.insert(0, {
-            "tag":     "existing_ce_600ep (half-sched ref)",
-            "head":    round(c.get("head_acc_avg", 0.0), 2),
-            "mid":     round(c.get("med_acc_avg",  0.0), 2),
-            "tail":    round(c.get("tail_acc_avg", 0.0), 2),
-            "overall": round(c.get("best_acc_avg", 0.0), 2),
-        })
-    except Exception:
-        pass
 
 # Finetune summaries
 for f in sorted(glob.glob("logs/finetune_summary_*.json")):

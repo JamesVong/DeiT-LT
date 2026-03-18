@@ -64,6 +64,36 @@ run.sh                                   # Orchestrates all 5 runs with auto-res
 
 ---
 
+## RunPod / SSH Tips
+
+**Always use tmux** so training survives SSH disconnections.
+
+```bash
+# Check tmux is available
+which tmux
+
+# Start a named session before running anything
+tmux new -s train
+
+# Run your job inside the session
+bash run.sh
+
+# Detach (leave running): Ctrl+B, then D
+# Reattach later:
+tmux attach -t train
+```
+
+**Output must go to `/workspace`** — the root filesystem (`/`) is only 20G and will fill up fast with checkpoints. The repo should live at `/workspace/DeiT-LT`, with `/root/DeiT-LT` as a symlink:
+
+```bash
+# One-time setup (if not already done)
+cp -r /root/DeiT-LT /workspace/DeiT-LT
+rm -rf /root/DeiT-LT
+ln -s /workspace/DeiT-LT /root/DeiT-LT
+```
+
+---
+
 ## Usage
 
 1. Clone the respository.
