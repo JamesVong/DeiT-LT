@@ -1,0 +1,19 @@
+
+==============================================================================
+  DeiT-LT  --  CIFAR-100 LT  IF=100  |  metric: AVG = (CLS + DIST) / 2
+==============================================================================
+  Run                                         Overall       Head        Mid       Tail   D-Ovr
+  ------------------------------------------------------------------------------------------------
+  Paper DeiT-LT (Table 6)                       55.60      72.80      55.40      31.40          <-- paper
+
+  CE (Cross-Entropy) baseline               --         --         --         --                 not started
+  T1: Logit Adjustment (tau=1.0)                54.97      67.31      56.17      38.21   -0.63
+  T2: Balanced Softmax                          54.89      67.42      55.46      38.55   -0.71
+  T3: Class-Aware Label Smoothing               53.54      69.06      52.94      35.00   -2.06
+
+  T4: Decoupled Classifier Fine-tuning          55.13      71.39      55.83      34.10   -0.47
+
+  D-Ovr = delta vs paper Overall
+  AVG   = average of CLS and DIST logits at inference
+==============================================================================
+
