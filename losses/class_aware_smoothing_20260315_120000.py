@@ -146,7 +146,7 @@ def class_aware_smoothing_loss(logits: torch.Tensor,
     -------
     Scalar class-aware label-smoothed cross-entropy loss.
     """
-    epsilon     = smoothing_vector[targets].to(logits.device)   # (B,)
+    epsilon     = smoothing_vector[targets.cpu()].to(logits.device)   # (B,)
     log_probs   = F.log_softmax(logits, dim=-1)                 # (B, C)
     C           = logits.size(-1)
 
@@ -250,7 +250,7 @@ class ClassAwareSmoothingCriterion(torch.nn.Module):
 
         if self._batch_idx % self.log_interval == 0:
             # mean_eps over the current batch's target classes
-            mean_eps = self.smoothing_vector[targets].mean().item()
+            mean_eps = self.smoothing_vector[targets.cpu()].mean().item()
             logger.info(
                 "[CLASS_SMOOTH] epoch=%d batch=%d mean_eps=%.4f loss=%.4f",
                 self._epoch, self._batch_idx, mean_eps, loss.item(),
