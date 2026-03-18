@@ -38,6 +38,28 @@ This repository extends the original DeiT-LT with four additional long-tail loss
 | 3 | **Class-Aware Label Smoothing** | Per-class ε inversely proportional to class count (tail → more smoothing) | `--loss class_smooth --eps-max 0.2` |
 | 4 | **Decoupled Classifier Fine-tuning** | Freeze backbone after stage-1 CE training; re-train head with balanced sampler | `scripts/finetune_classifier_*.py` |
 
+### Experimental results — CIFAR-10 LT, IF=100 (1200 epochs, DRW at epoch 1100)
+
+All metrics are **AVG = (CLS token + DIST token) / 2**, consistent with Table 6 of the DeiT-LT paper.
+Head / Mid / Tail splits: Head = 3 majority classes, Mid = 4 middle classes, Tail = 3 minority classes (CIFAR-10 LT ρ=100).
+
+| Run | Overall | Head | Mid | Tail | Δ Overall |
+|-----|--------:|-----:|----:|-----:|----------:|
+| Paper DeiT-LT (Table 6) | 87.50 | 94.50 | 84.10 | 85.00 | — |
+| CE baseline (reproduced) | 87.69 | 94.97 | 83.85 | 85.53 | +0.19 |
+| T1: Logit Adjustment (τ=1.0) | 87.89 | 92.47 | 84.10 | 88.37 | +0.39 |
+| T2: Balanced Softmax | **88.06** | 91.90 | 84.60 | **88.83** | **+0.56** |
+| T3: Class-Aware Label Smoothing | 87.66 | 94.20 | 83.73 | 86.37 | +0.16 |
+| T4: Decoupled Classifier Fine-tuning | 87.70 | 92.00 | 83.85 | 88.53 | +0.20 |
+
+Key observations:
+- **T2 (Balanced Softmax)** achieves the best overall (+0.56) and tail (+3.83) accuracy.
+- **T1 and T2** consistently trade head accuracy (−2.0% and −2.6%) for tail gains (+3.4% and +3.8%), reflecting the frequency-corrective nature of these losses.
+- **T3 (Class-Aware Label Smoothing)** improves tail (+0.84) with minimal impact elsewhere, preserving head accuracy near the CE baseline.
+- **T4 (Decoupled Fine-tuning)** retrains only the CLS head with a balanced sampler; the DIST head is frozen. The CLS tail improves from 58.4% → 75.6% (+17.2%), and the ensemble (CLS+DIST)/2 reaches 87.70% overall.
+
+To reproduce, run `python scripts/report.py` from the repo root.
+
 ### Running the full comparison
 
 ```bash
@@ -49,17 +71,35 @@ bash run.sh
 
 Results are printed as a comparison table at the end. Individual training logs are written to `logs/`.
 
+### SLURM scripts (HPC / V100)
+
+For running CIFAR-100 LT experiments on a SLURM cluster:
+
+```bash
+# 1. Download dataset (run once on a node with internet access)
+sbatch sh/slurm_download_cifar100.sh
+
+# 2. Submit each technique (replace <download_jobid> with the job ID from step 1)
+sbatch --dependency=afterok:<download_jobid> --export=TECHNIQUE=logit_adj    sh/slurm_train_c100_if100.sh
+sbatch --dependency=afterok:<download_jobid> --export=TECHNIQUE=bal_softmax  sh/slurm_train_c100_if100.sh
+sbatch --dependency=afterok:<download_jobid> --export=TECHNIQUE=class_smooth sh/slurm_train_c100_if100.sh
+```
+
+Each job requests 1× V100, 22 h wall time, and supports automatic resume if resubmitted.
+
 ### New files
 
 ```
 losses/
-  logit_adjustment_20260315_120000.py    # Technique 1
-  balanced_softmax_20260315_120000.py    # Technique 2
+  logit_adjustment_20260315_120000.py       # Technique 1
+  balanced_softmax_20260315_120000.py       # Technique 2
   class_aware_smoothing_20260315_120000.py  # Technique 3
 scripts/
-  train_lt_20260315_120000.py            # Unified train wrapper (all loss types)
-  finetune_classifier_20260315_120000.py # Technique 4 stage-2 fine-tuning
-run.sh                                   # Orchestrates all 5 runs with auto-resume
+  train_lt_20260315_120000.py               # Unified train wrapper (all loss types)
+  finetune_classifier_20260315_120000.py    # Technique 4 stage-2 fine-tuning
+run.sh                                      # Orchestrates all 5 runs with auto-resume
+sh/slurm_download_cifar100.sh              # SLURM: download CIFAR-100
+sh/slurm_train_c100_if100.sh               # SLURM: train CIFAR-100 LT IF=100
 ```
 
 ---
