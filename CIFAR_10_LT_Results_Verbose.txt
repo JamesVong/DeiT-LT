@@ -1,0 +1,29 @@
+
+==============================================================================
+  DeiT-LT  --  CIFAR-10 LT  IF=100  |  metric: AVG = (CLS + DIST) / 2
+==============================================================================
+  Run                                         Overall       Head        Mid       Tail   D-Ovr
+  ------------------------------------------------------------------------------------------------
+  Paper DeiT-LT (Table 6)                       87.50      94.50      84.10      85.00          <-- paper
+
+  CE (Cross-Entropy) baseline                   87.69      94.97      83.85      85.53   +0.19
+      CLS token                                 78.51      96.80      79.88      58.40
+      DIST token                                81.06      74.97      76.90      92.70
+  T1: Logit Adjustment (tau=1.0)                87.89      92.47      84.10      88.37   +0.39
+      CLS token                                 83.55      95.70      82.68      72.57
+      DIST token                                81.26      76.77      76.38      92.27
+  T2: Balanced Softmax                          88.06      91.90      84.60      88.83   +0.56
+      CLS token                                 83.81      95.77      81.83      74.50
+      DIST token                                80.97      74.50      77.35      92.27
+  T3: Class-Aware Label Smoothing               87.66      94.20      83.73      86.37   +0.16
+      CLS token                                 78.52      96.70      79.30      59.27
+      DIST token                                81.21      75.83      76.73      92.57
+
+  T4: Decoupled Classifier Fine-tuning          87.70      92.00      83.85      88.53   +0.20
+      CLS token (retrained)                     83.95      95.83      81.27      75.63
+      DIST token (unchanged)                    81.06      74.97      76.90      92.70
+
+  D-Ovr = delta vs paper Overall
+  AVG   = average of CLS and DIST logits at inference
+==============================================================================
+

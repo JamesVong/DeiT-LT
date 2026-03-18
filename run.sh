@@ -38,29 +38,41 @@ set -euo pipefail
 # ── 0. Setup ──────────────────────────────────────────────────────────────────
 mkdir -p logs checkpoints
 
-# ── Download teacher model (CIFAR-100 LT IF=100, PaCo+SAM) ───────────────────
-TEACHER_CKPT="cifar100_paco_sam_if100.pth.tar"
-if [ ! -f "$TEACHER_CKPT" ]; then
-    echo "Downloading teacher model → ${TEACHER_CKPT} ..."
-    wget -q --show-progress -O "$TEACHER_CKPT" \
-        "https://api.wandb.ai/artifactsV2/default/pradipto611/QXJ0aWZhY3Q6Nzk3NzA4NTEx/fc4a80f43013c11729e28426b64ef70b/cifar100_paco_sam_if100.pth.tar"
-    echo "  Teacher model downloaded."
-else
-    echo "  Teacher model already present: ${TEACHER_CKPT}"
-fi
+# ── Dataset selection ─────────────────────────────────────────────────────────
+# Override at call time: DATA_SET=CIFAR10LT bash run.sh
+DATA_SET="${DATA_SET:-CIFAR100LT}"
 
-# ── Download pre-trained student CE checkpoint (skips CE training run) ────────
-# Matches name_exp produced by: model_teacher_epochs_CIFAR100LT_imb100_bs_[exp]
-_STUDENT_SUBDIR="deit_out_ce_if100/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_[paco_sam_teacher]"
-_STUDENT_CKPT="${_STUDENT_SUBDIR}/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_[paco_sam_teacher]_best_checkpoint.pth"
-if [ ! -f "$_STUDENT_CKPT" ]; then
-    echo "Downloading student CE checkpoint → ${_STUDENT_CKPT} ..."
-    mkdir -p "$_STUDENT_SUBDIR"
-    wget -q --show-progress -O "$_STUDENT_CKPT" \
-        "https://api.wandb.ai/artifactsV2/default/pradipto611/QXJ0aWZhY3Q6Nzk3NzA4NTEx/cf0bdaca962d76f5d79be436478cfd5d/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_%5Bpaco_sam_teacher%5D_best_checkpoint.pth"
-    echo "  Student CE checkpoint downloaded."
+if [ "$DATA_SET" = "CIFAR100LT" ]; then
+    DATA_PATH="cifar100"
+    TEACHER_CKPT="cifar100_paco_sam_if100.pth.tar"
+
+    # Download teacher model
+    if [ ! -f "$TEACHER_CKPT" ]; then
+        echo "Downloading teacher model → ${TEACHER_CKPT} ..."
+        wget -q --show-progress -O "$TEACHER_CKPT" \
+            "https://api.wandb.ai/artifactsV2/default/pradipto611/QXJ0aWZhY3Q6Nzk3NzA4NTEx/fc4a80f43013c11729e28426b64ef70b/cifar100_paco_sam_if100.pth.tar"
+        echo "  Teacher model downloaded."
+    else
+        echo "  Teacher model already present: ${TEACHER_CKPT}"
+    fi
+
+    # Download pre-trained student CE checkpoint (skips CE training run)
+    # Matches name_exp: model_teacher_epochs_CIFAR100LT_imb100_bs_[exp]
+    _STUDENT_SUBDIR="deit_out_ce_if100/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_[paco_sam_teacher]"
+    _STUDENT_CKPT="${_STUDENT_SUBDIR}/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_[paco_sam_teacher]_best_checkpoint.pth"
+    if [ ! -f "$_STUDENT_CKPT" ]; then
+        echo "Downloading student CE checkpoint → ${_STUDENT_CKPT} ..."
+        mkdir -p "$_STUDENT_SUBDIR"
+        wget -q --show-progress -O "$_STUDENT_CKPT" \
+            "https://api.wandb.ai/artifactsV2/default/pradipto611/QXJ0aWZhY3Q6Nzk3NzA4NTEx/cf0bdaca962d76f5d79be436478cfd5d/deit_base_distilled_patch16_224_resnet32_1200_CIFAR100LT_imb100_128_%5Bpaco_sam_teacher%5D_best_checkpoint.pth"
+        echo "  Student CE checkpoint downloaded."
+    else
+        echo "  Student CE checkpoint already present."
+    fi
 else
-    echo "  Student CE checkpoint already present."
+    # CIFAR10LT — CE baseline is trained from scratch; teacher ckpt must be present
+    DATA_PATH="cifar10"
+    TEACHER_CKPT="paco_sam_ckpt_cf10_if100.pth.tar"
 fi
 
 SCRIPT="scripts/train_lt_20260315_120000.py"
@@ -134,7 +146,7 @@ run_technique() {
         "${extra_flags[@]}"
 }
 
-# ── 1. Common flags — CIFAR-100 LT IF=100, full schedule ─────────────────────
+# ── 1. Common flags — IF=100, full schedule ───────────────────────────────────
 COMMON="--model deit_base_distilled_patch16_224 \
     --batch-size 128 \
     --epochs ${TOTAL_EPOCHS} \
@@ -144,8 +156,8 @@ COMMON="--model deit_base_distilled_patch16_224 \
     --teacher-model resnet32 \
     --teacher-size 32 \
     --distillation-type hard \
-    --data-path cifar100 \
-    --data-set CIFAR100LT \
+    --data-path ${DATA_PATH} \
+    --data-set ${DATA_SET} \
     --imb_factor 0.01 \
     --student-transform 0 \
     --teacher-transform 0 \
@@ -156,10 +168,18 @@ COMMON="--model deit_base_distilled_patch16_224 \
     --weighted-distillation \
     --moco-t 0.05 --moco-k 1024 --moco-dim 32 --feat_dim 64 --paco"
 
-# ── 2. CE baseline — SKIPPED (pre-trained checkpoint downloaded above) ────────
-echo ""
-echo "=== [1/5] CE baseline — SKIPPED (using downloaded checkpoint) ==="
-echo "  Checkpoint: ${_STUDENT_CKPT}"
+# ── 2. CE baseline ────────────────────────────────────────────────────────────
+if [ "$DATA_SET" = "CIFAR100LT" ]; then
+    echo ""
+    echo "=== [1/5] CE baseline — SKIPPED (using downloaded checkpoint) ==="
+    echo "  Checkpoint: ${_STUDENT_CKPT}"
+else
+    run_technique "[1/5] CE baseline (reproduces original DeiT-LT)" \
+        deit_out_ce_if100 \
+        --loss ce \
+        --experiment "[lt_ce_if100]" \
+        --output_dir deit_out_ce_if100
+fi
 
 # ── 3. Technique 1: Logit Adjustment ─────────────────────────────────────────
 run_technique "[2/5] Technique 1: Logit Adjustment (tau=1.0)" \
@@ -196,67 +216,4 @@ else
 fi
 
 # ── 7. Results comparison table ───────────────────────────────────────────────
-echo ""
-echo "############################################################"
-echo "#  RESULTS  —  CIFAR-100 LT  IF=100  (1200 epochs)"
-echo "############################################################"
-python - <<'PYEOF'
-import glob, json, os
-import torch
-
-PAPER_BASELINE = {
-    "DeiT-LT (paper, CE, CIFAR-100 IF=100)": {"head": 74.0, "mid": 43.5, "tail": 25.2, "overall": 53.8},
-}
-
-rows = []
-
-# Read best_checkpoint.pth files for all our trained runs
-for d in sorted(glob.glob("deit_out_*_if100")):
-    ckpts = sorted(glob.glob(f"{d}/**/*_best_checkpoint.pth", recursive=True))
-    if not ckpts:
-        continue
-    tag = os.path.basename(d).replace("deit_out_", "").replace("_if100", "")
-    try:
-        c = torch.load(ckpts[-1], map_location="cpu")
-        rows.append({
-            "tag":     tag,
-            "head":    round(c.get("head_acc_avg",  c.get("head_acc_cls",  0.0)), 2),
-            "mid":     round(c.get("med_acc_avg",   c.get("med_acc_cls",   0.0)), 2),
-            "tail":    round(c.get("tail_acc_avg",  c.get("tail_acc_cls",  0.0)), 2),
-            "overall": round(c.get("best_acc_avg",  c.get("best_acc_cls",  0.0)), 2),
-        })
-    except Exception as e:
-        print(f"  [WARN] {ckpts[-1]}: {e}")
-
-
-# Finetune summaries
-for f in sorted(glob.glob("logs/finetune_summary_*.json")):
-    try:
-        d = json.load(open(f))
-        rows.append({
-            "tag":     "finetune (T4)",
-            "head":    d.get("stage2_head_acc",    "-"),
-            "mid":     d.get("stage2_mid_acc",     "-"),
-            "tail":    d.get("stage2_tail_acc",    "-"),
-            "overall": d.get("stage2_overall_acc", "-"),
-        })
-    except Exception:
-        pass
-
-print(f"\n{'Run':<42} {'Head':>7} {'Mid':>7} {'Tail':>7} {'Overall':>9}")
-print("-" * 76)
-for name, acc in PAPER_BASELINE.items():
-    print(f"  {name:<40} {acc['head']:>7.1f} {acc['mid']:>7.1f} "
-          f"{acc['tail']:>7.1f} {acc['overall']:>9.1f}  ← paper")
-print()
-if not rows:
-    print("  (no completed checkpoints yet — run training first)")
-else:
-    for r in rows:
-        h = f"{r['head']:.2f}" if isinstance(r['head'], float) else str(r['head'])
-        m = f"{r['mid']:.2f}"  if isinstance(r['mid'],  float) else str(r['mid'])
-        t = f"{r['tail']:.2f}" if isinstance(r['tail'], float) else str(r['tail'])
-        o = f"{r['overall']:.2f}" if isinstance(r['overall'], float) else str(r['overall'])
-        print(f"  {r['tag']:<40} {h:>7} {m:>7} {t:>7} {o:>9}")
-print()
-PYEOF
+python scripts/report.py --dataset "${DATA_SET}"
